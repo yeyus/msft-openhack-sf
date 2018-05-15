@@ -1,0 +1,33 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: azure-hack-minecraft
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: azure-hack-minecraft
+    spec:
+      containers:
+      - name: minecraft-server
+        image: openhack/minecraft-server:1.0
+        ports:
+        - containerPort: 25565
+          name: minecraft
+        env:
+        - name: "EULA"
+          value: "TRUE"
+        - name: "MOTD"
+          value: "FROM YAML AKS"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-hack-minecraft-svc
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 25565
+  selector:
+    app: azure-hack-minecraft
