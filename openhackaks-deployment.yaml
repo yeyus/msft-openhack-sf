@@ -1,8 +1,12 @@
-apiVersion: apps/v1beta1
-kind: Deployment
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: azure-hack-minecraft
 spec:
+  selector:
+    matchLabels:
+      app: azure-hack-minecraft
+  serviceName: "azure-hack-minecraft-svc"
   replicas: 1
   template:
     metadata:
@@ -15,6 +19,9 @@ spec:
         ports:
         - containerPort: 25565
           name: minecraft
+        volumeMounts:
+        - name: world
+          mountPath: /data
         env:
         - name: "EULA"
           value: "TRUE"
@@ -42,6 +49,15 @@ spec:
             configMapKeyRef:
               name: analytics-sidecar-config
               key: azure_shared_key
+  volumeClaimTemplates:
+  - metadata:
+      name: world
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "default"
+      resources:
+        requests:
+          storage: 4Gi
 ---
 apiVersion: v1
 kind: Service
