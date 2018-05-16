@@ -30,6 +30,9 @@ spec:
       - name: sidecar
         image: yeyus/openhack-rcon-sidecar:latest
         imagePullPolicy: Always
+        volumeMounts:
+        - name: world
+          mountPath: /data
         env:
         - name: POD_NAME
           valueFrom:
@@ -39,6 +42,11 @@ spec:
           value: "25565"
         - name: HOST
           value: "localhost"
+        - name: DATA_VOLUME
+          valueFrom:
+            configMapKeyRef:
+              name: analytics-sidecar-config
+              key: data_volume
         - name: AZURE_CUSTOMER_ID
           valueFrom:
             configMapKeyRef:
