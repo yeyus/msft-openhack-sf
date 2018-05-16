@@ -20,6 +20,28 @@ spec:
           value: "TRUE"
         - name: "MOTD"
           value: "FROM YAML AKS"
+      - name: sidecar
+        image: yeyus/openhack-rcon-sidecar:latest
+        imagePullPolicy: Always
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: PORT
+          value: "25565"
+        - name: HOST
+          value: "localhost"
+        - name: AZURE_CUSTOMER_ID
+          valueFrom:
+            configMapKeyRef:
+              name: analytics-sidecar-config
+              key: azure_customer_id
+        - name: AZURE_SHARED_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: analytics-sidecar-config
+              key: azure_shared_key
 ---
 apiVersion: v1
 kind: Service

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: analytics-sidecar-config
+  namespace: default
+data:
+  azure_customer_id: "34607b4c-23e0-4c2b-adf5-dbc67853b17b"
+  azure_shared_key: "s49GZSrcr1XNCABYz1a1UbwQFwVgDrjftuHdjK2LJ08yqJ8b6YMEHHzFaP7xxhkbPJRArWQ0ulnThGLgvpO2TA=="
