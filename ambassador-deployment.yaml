@@ -1,0 +1,31 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ambassador
+spec:
+  replicas: 1
+  serviceAccountName: kube-api-proxy
+  template:
+    metadata:
+      labels:
+        app: ambassador
+    spec:
+      containers:
+      - name: kubectl
+        image: yeyus/insecure-kubectl-proxy:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 13337
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ambassador-svc
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 13337
+    targetPort: 13337
+    name: proxy
+  selector:
+    app: ambassador
