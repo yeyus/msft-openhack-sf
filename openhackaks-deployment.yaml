@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: azure-hack-minecraft
   serviceName: "azure-hack-minecraft-svc"
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
